@@ -20,4 +20,3 @@ new ProductFinderInfraStack(app, `ProductFinderInfraStack-${config.AWS_ACCOUNT}-
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
-

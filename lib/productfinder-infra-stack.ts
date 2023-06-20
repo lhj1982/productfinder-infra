@@ -1,17 +1,14 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as iam from 'aws-cdk-lib/aws-iam';
-// import * as s3 from '@aws-cdk/aws-s3';
+import { Table, AttributeType, BillingMode } from 'aws-cdk-lib/aws-dynamodb';
 import config from '../config';
 
 export class ProductFinderInfraStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // const bucket = new s3.Bucket(this, 'ServiceKeyBucket', {
-    //   bucketName: config.KEY_BUCKET_NAME
-    // });
-
+    // IAM role for oscar invoke
     const assumeRole = new iam.Role(this, 'LaunchProductFinderServiceAssumeRole', {
       roleName: config.ASSUMED_ROLE_NAME,
       assumedBy: new iam.CompositePrincipal(
@@ -43,22 +40,44 @@ export class ProductFinderInfraStack extends cdk.Stack {
           resources: ['*'],
         }),
       ],
-      roles: [assumeRole]
+      roles: [assumeRole],
     });
 
-    // new cdk.CfnOutput(this, 'ServiceKeyBucketName', {
-    //     value: bucket.bucketName,
-    //     description: 'The name of service key bucket',
-    //     exportName: 'serviceKeyBucketName',
-    //   });
-    // new cdk.CfnOutput(this, 'ServiceKeyBucketArn', {
-    //     value: bucket.bucketArn,
-    //     description: 'The arn of service key bucket',
-    //     exportName: 'serviceKeyBucketArn',
-    //   });
+    // dynamodb tables
+    const tableName = 'productFinder-products';
+    const productTable = new Table(this, 'ProductFinderProductsTable', {
+      tableName: tableName,
+      partitionKey: {
+        name: `styleColor`,
+        type: AttributeType.STRING,
+      },
+      billingMode: BillingMode.PAY_PER_REQUEST,
+    });
+
+    const allowedUsersTableName = 'productFinder-allowedUsers';
+    const allowedUsersTable = new Table(this, 'ProductFinderAllowedUsersTable', {
+      tableName: allowedUsersTableName,
+      partitionKey: {
+        name: `userId`,
+        type: AttributeType.STRING,
+      },
+      billingMode: BillingMode.PAY_PER_REQUEST,
+    });
+
+    // Generate output
+    new cdk.CfnOutput(this, 'ProductFinderAllowedUsersTableArn', {
+      value: allowedUsersTable.tableArn,
+      description: 'The table arn',
+      exportName: 'ProductFinderAllowedUsersTableArn',
+    });
+    new cdk.CfnOutput(this, 'ProductFinderProductsTableArn', {
+      value: productTable.tableArn,
+      description: 'The table arn',
+      exportName: 'ProductFinderProductsTableArn',
+    });
     new cdk.CfnOutput(this, 'LaunchProductFinderServiceAssumeRoleName', {
       value: assumeRole.roleName,
-      description: 'The name of assume service role'
+      description: 'The name of assume service role',
     });
   }
 }

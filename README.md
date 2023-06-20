@@ -23,7 +23,7 @@ SLACK_MESSAGE_HOOK: 'https://hooks.slack.com/services/T0G3T5X2B/B01AU6F5HEG/y324
 ```
 
 
-You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`PrecheckConsumerStack`)
+You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`ProductFinderInfraStack`)
 which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
