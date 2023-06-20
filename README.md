@@ -39,7 +39,7 @@ okta_auth_server = aus27z7p76as9Dz0H1t7
 client_id = 0oa34x20aq50blCCZ1t7
 gimme_creds_server = https://api.sec.nikecloud.com/gimmecreds/accounts
 aws_appname = AWS-CN WaffleIron Multi-Account
-aws_rolename = arn:aws:iam::xxx:role/NIKE.SSO.AdminRole
+aws_rolename = arn:aws:iam::<aws accountId>:role/NIKE.SSO.AdminRole
 write_aws_creds = True
 cred_profile = CommerceGCTest
 okta_username = <nike email>
@@ -58,7 +58,7 @@ okta_auth_server = aus27z7p76as9Dz0H1t7
 client_id = 0oa34x20aq50blCCZ1t7
 gimme_creds_server = https://api.sec.nikecloud.com/gimmecreds/accounts
 aws_appname = AWS-CN WaffleIron Multi-Account
-aws_rolename = arn:aws:iam::xxx:role/NIKE.SSO.AdminRole
+aws_rolename = arn:aws:iam::<aws accountId>:role/NIKE.SSO.AdminRole
 write_aws_creds = True
 cred_profile = CommerceGCProd
 okta_username = <nike email>
@@ -72,13 +72,14 @@ device_token =
 output_format =
 ```
 
+
 ## How to run
 
- * Run gimme_aws_cred to generate profile for proper environment
+ * Run gimme-aws-cred to generate profile for proper environment
 
 Depends on the environment, run command with speicified profile **CommerceGCTest** or **CommerceGCProd**
  ```
- gimme_aws_cred --profile CommerceGCTest
+ gimme-aws-creds --profile CommerceGCTest
  ```
  * Build source
  ```
