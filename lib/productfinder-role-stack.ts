@@ -34,7 +34,7 @@ export class ProductFinderRoleStack extends Stack {
                 statements: [
                     new PolicyStatement({
                         actions: ['lambda:InvokeFunction'],
-                        resources: [`arn:aws-cn:lambda:${config.AWS_REGION}:${config.AWS_ACCOUNT}:function:*launch-productFinder*`]
+                        resources: [`arn:aws-cn:lambda:${config.AWS_REGION}:${config.AWS_ACCOUNT}:function:*launch-productfinder*`]
                     })
                 ]
             }),
@@ -55,7 +55,7 @@ export class ProductFinderRoleStack extends Stack {
                             "dynamodb:BatchWriteItem",
                             "dynamodb:DeleteItem"
                         ],
-                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/launch-productFinder*`]
+                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/launch-productfinder*`]
                     }),
                 ]
             }),
@@ -75,7 +75,7 @@ export class ProductFinderRoleStack extends Stack {
                 statements: [
                     new PolicyStatement({
                         actions: ['states:StartExecution'],
-                        resources: [`arn:aws-cn:states:${config.AWS_REGION}:${config.AWS_ACCOUNT}:stateMachine:launch-productFinder*`]
+                        resources: [`arn:aws-cn:states:${config.AWS_REGION}:${config.AWS_ACCOUNT}:stateMachine:launch-productfinder*`]
                     })
                 ]
             }),

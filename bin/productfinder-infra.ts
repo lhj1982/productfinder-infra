@@ -7,7 +7,7 @@ import {ProductFinderRoleStack} from "../lib/productfinder-role-stack";
 const app = new cdk.App();
 // role stack
 new ProductFinderRoleStack(app,
-    `ProductFinderRoleStack-${config.AWS_ACCOUNT}-${config.AWS_REGION}`,
+    `launchProductFinderRoleStack-${config.AWS_ACCOUNT}-${config.AWS_REGION}`,
     {
       env : {
         account : config.AWS_ACCOUNT,
