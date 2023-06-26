@@ -14,7 +14,7 @@ export class ProductFinderRoleStack extends Stack {
                 statements: [
                     new PolicyStatement({
                         actions: ['sns:Publish'],
-                        resources: [`arn:aws-cn:sns:${config.AWS_REGION}:${config.AWS_ACCOUNT}:${config.TOPIC_NAME}`]
+                        resources: [`arn:aws-cn:sns:${config.AWS_REGION}:${config.AWS_ACCOUNT}:launch-productfinder-scheduler-topic`]
                     })
                 ]
             }),
@@ -24,7 +24,7 @@ export class ProductFinderRoleStack extends Stack {
                 statements: [
                     new PolicyStatement({
                         actions: ['sqs:ReceiveMessage'],
-                        resources: [`arn:aws-cn:sqs:${config.AWS_REGION}:${config.AWS_ACCOUNT}:${config.QUEUE_NAME}`]
+                        resources: [`arn:aws-cn:sqs:${config.AWS_REGION}:${config.AWS_ACCOUNT}:launch-productfinder-scheduler-queue`]
                     })
                 ]
             }),
@@ -34,7 +34,7 @@ export class ProductFinderRoleStack extends Stack {
                 statements: [
                     new PolicyStatement({
                         actions: ['lambda:InvokeFunction'],
-                        resources: [`arn:aws-cn:lambda:${config.AWS_REGION}:${config.AWS_ACCOUNT}:function:${config.LAMBDA_SOURCE}`]
+                        resources: [`arn:aws-cn:lambda:${config.AWS_REGION}:${config.AWS_ACCOUNT}:function:*launch-productFinder*`]
                     })
                 ]
             }),
@@ -55,7 +55,7 @@ export class ProductFinderRoleStack extends Stack {
                             "dynamodb:BatchWriteItem",
                             "dynamodb:DeleteItem"
                         ],
-                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/${config.DYNAMODB_SOURCE}`]
+                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/launch-productFinder*`]
                     }),
                 ]
             }),
@@ -68,7 +68,17 @@ export class ProductFinderRoleStack extends Stack {
                         resources: [`${config.OSCAR_API_ARN}`]
                     })
                 ]
-            })
+            }),
+            //step function
+            new Policy(this, 'launchProductStepFunctionPolicy', {
+                policyName: 'launch-productfinder-stepFunction-policy',
+                statements: [
+                    new PolicyStatement({
+                        actions: ['states:StartExecution'],
+                        resources: [`arn:aws-cn:states:${config.AWS_REGION}:${config.AWS_ACCOUNT}:stateMachine:launch-productFinder*`]
+                    })
+                ]
+            }),
         ];
         //role
         const role = new Role(this, 'launchProductFinderRole', {
@@ -77,7 +87,8 @@ export class ProductFinderRoleStack extends Stack {
                 new ServicePrincipal('sns.amazonaws.com'),
                 new ServicePrincipal('sqs.amazonaws.com'),
                 new ServicePrincipal('lambda.amazonaws.com'),
-                new ServicePrincipal('dynamodb.amazonaws.com')
+                new ServicePrincipal('dynamodb.amazonaws.com'),
+                new ServicePrincipal('states.amazonaws.com'),
             ),
             description: 'the iam Role of launch-productfinder-scheduler and launch-productfinder-consume'
         });
