@@ -1,11 +1,10 @@
-import {Stack, StackProps} from "aws-cdk-lib";
 import {Construct} from "constructs";
+import {CompositePrincipal, Policy, PolicyStatement, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam";
 import config from "../config";
-import {CompositePrincipal, ManagedPolicy, Policy, PolicyStatement, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam";
 
-export class ProductFinderRoleStack extends Stack {
-    constructor(scope: Construct, id:string, props?: StackProps) {
-        super(scope, id, props);
+export class ProductFinderRole extends Construct {
+    constructor(scope: Construct, id:string) {
+        super(scope, id);
         //policy with all policy statement of launch product finder
         const policies = [
             //sns policy
