@@ -24,8 +24,7 @@ export class ProductFinderRole extends Construct {
                 statements: [
                     new PolicyStatement({
                         actions: [
-                            'sqs:ReceiveMessage',
-                            'sqs:DeleteMessage'
+                            'sqs:*'
                         ],
                         resources: [`arn:aws-cn:sqs:${config.AWS_REGION}:${config.AWS_ACCOUNT}:launch-productfinder-scheduler-queue`]
                     })
