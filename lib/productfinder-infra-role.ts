@@ -1,6 +1,7 @@
 import {Construct} from "constructs";
 import {CompositePrincipal, Policy, PolicyStatement, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam";
 import config from "../config";
+import {CfnOutput} from "aws-cdk-lib";
 
 export class ProductFinderRole extends Construct {
     constructor(scope: Construct, id:string) {
@@ -94,6 +95,11 @@ export class ProductFinderRole extends Construct {
         // add policy to role
         policies.forEach(policy => {
             role.attachInlinePolicy(policy);
-        })
+        });
+        new CfnOutput(this, 'ProductFinderRoleArn', {
+            value: role.roleArn,
+            description: 'The arn of launch product finder role',
+            exportName: 'ProductFinderRoleArn',
+        });
     }
 }
