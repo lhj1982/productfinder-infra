@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {CompositePrincipal, Policy, PolicyStatement, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam";
+import {ArnPrincipal, CompositePrincipal, Policy, PolicyStatement, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam";
 import config from "../config";
 import {CfnOutput} from "aws-cdk-lib";
 
@@ -36,7 +36,7 @@ export class ProductFinderRole extends Construct {
                 statements: [
                     new PolicyStatement({
                         actions: ['lambda:InvokeFunction'],
-                        resources: [`arn:aws-cn:lambda:${config.AWS_REGION}:${config.AWS_ACCOUNT}:function:*launch-productfinder*`]
+                        resources: [`arn:aws-cn:lambda:${config.AWS_REGION}:${config.AWS_ACCOUNT}:function:*productFinder*`]
                     })
                 ]
             }),
@@ -57,7 +57,7 @@ export class ProductFinderRole extends Construct {
                             "dynamodb:BatchWriteItem",
                             "dynamodb:DeleteItem"
                         ],
-                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/launch-productfinder*`]
+                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/*productFinder*`]
                     }),
                 ]
             }),
@@ -77,20 +77,37 @@ export class ProductFinderRole extends Construct {
                 statements: [
                     new PolicyStatement({
                         actions: ['states:StartExecution'],
-                        resources: [`arn:aws-cn:states:${config.AWS_REGION}:${config.AWS_ACCOUNT}:stateMachine:launch-productfinder*`]
+                        resources: [`arn:aws-cn:states:${config.AWS_REGION}:${config.AWS_ACCOUNT}:stateMachine:productfinder*`]
+                    })
+                ]
+            }),
+            //cloud watch
+            new Policy(this, 'LaunchProductFinderCloudwatchPolicy', {
+                policyName: 'launch-productfinder-cloudwatch-policy',
+                statements: [
+                    new PolicyStatement({
+                        actions: [
+                            'cloudwatch:PutMetricData',
+                            'logs:*'
+                        ],
+                        resources: ['*']
                     })
                 ]
             }),
         ];
         //role
         const role = new Role(this, 'launchProductFinderRole', {
-            roleName : 'launch-productfinder-role',
+            roleName : `${config.ASSUMED_ROLE_NAME}`,
             assumedBy : new CompositePrincipal(
                 new ServicePrincipal('sns.amazonaws.com'),
                 new ServicePrincipal('sqs.amazonaws.com'),
                 new ServicePrincipal('lambda.amazonaws.com'),
                 new ServicePrincipal('dynamodb.amazonaws.com'),
                 new ServicePrincipal('states.amazonaws.com'),
+                new ServicePrincipal('events.amazonaws.com'),
+                new ServicePrincipal('logs.amazonaws.com'),
+                new ServicePrincipal('ec2.amazonaws.com'),
+                new ArnPrincipal(`${config.OKTA_ADMIN_ROLE}`)
             ),
             description: 'the iam Role of launch-productfinder-scheduler and launch-productfinder-consume'
         });
