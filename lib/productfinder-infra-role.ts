@@ -57,7 +57,7 @@ export class ProductFinderRole extends Construct {
                             "dynamodb:BatchWriteItem",
                             "dynamodb:DeleteItem"
                         ],
-                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/*productFinder*`]
+                        resources: [`arn:aws-cn:dynamodb:${config.AWS_REGION}:${config.AWS_ACCOUNT}:table/*productfinder*`]
                     }),
                 ]
             }),
