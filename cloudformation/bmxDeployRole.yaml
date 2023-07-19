@@ -1,0 +1,147 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Role for Launch Product Finder's BMX to deploy services
+Parameters:
+  EnvironmentType:
+    Description: The environment that resources should be created in.
+    Type: String
+    AllowedValues:
+      - chinaTest
+      - chinaProd
+Resources:
+  LaunchProductFinderBMXDeployRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "launch-productfinder-bmx-deploy-role"
+      Policies:
+        - PolicyName: launch-product-finder-bmx-policy
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - 'cloudformation:CancelUpdateStack'
+                - 'cloudformation:ContinueUpdateRollback'
+                - 'cloudformation:CreateChangeSet'
+                - 'cloudformation:CreateStack'
+                - 'cloudformation:DeleteStack'
+                - 'cloudformation:DescribeChangeSet'
+                - 'cloudformation:DescribeStackEvents'
+                - 'cloudformation:DescribeStackResource'
+                - 'cloudformation:DescribeStackResources'
+                - 'cloudformation:ExecuteChangeSet'
+                - 'cloudformation:ListStackResources'
+                - 'cloudformation:UpdateStack'
+                - 'cloudformation:GetTemplate'
+                - 'cloudformation:ListStacks'
+                - 'cloudformation:DescribeStacks'
+                - 'cloudformation:GetTemplateSummary'
+                - 'cloudformation:ValidateTemplate'
+              Resource:
+                - !Sub 'arn:aws-cn:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'iam:AttachRolePolicy'
+                - 'iam:CreateRole'
+                - 'iam:DeleteRole'
+                - 'iam:DeleteRolePolicy'
+                - 'iam:DetachRolePolicy'
+                - 'iam:GetRole'
+                - 'iam:PassRole'
+                - 'iam:PutRolePolicy'
+                - 'iam:GetRolePolicy'
+                - 'iam:TagRole'
+                - 'iam:UntagRole'
+                - 'iam:CreateServiceLinkedRole'
+              Resource:
+                - !Sub 'arn:aws-cn:iam:${AWS::AccountId}:role/launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'dynamodb:CreateTable'
+                - 'dynamodb:DeleteTable'
+                - 'dynamodb:DescribeTable'
+              Resource:
+                - !Sub 'arn:aws-cn:dynamodb:${AWS::Region}:${AWS::AccountId}:table/launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'apigateway:CreateRestApi'
+                - 'apigateway:DeleteRestApi'
+              Resource:
+                - !Sub 'arn:aws-cn:apigateway:${AWS::Region}:${AWS::AccountId}:/restapis/launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'SNS:CreateTopic'
+                - 'SNS:DeleteTopic'
+                - 'SNS:GetTopicAttributes'
+                - 'SNS:ListSubscriptionsByTopic'
+                - 'SNS:Subscribe'
+                - 'SNS:Unsubscribe'
+                - 'SNS:TagResource'
+                - 'SNS:SetTopicAttributes'
+              Resource:
+                - !Sub 'arn:aws-cn:sns:${AWS::Region}:${AWS::AccountId}:launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'sqs:*'
+              Resource:
+                - !Sub 'arn:aws-cn:sqs:${AWS::Region}:${AWS::AccountId}:launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'lambda:AddPermission'
+                - 'lambda:CreateAlias'
+                - 'lambda:CreateEventSourceMapping'
+                - 'lambda:CreateFunction'
+                - 'lambda:DeleteAlias'
+                - 'lambda:DeleteEventSourceMapping'
+                - 'lambda:DeleteFunction'
+                - 'lambda:GetAlias'
+                - 'lambda:GetEventSourceMapping'
+                - 'lambda:GetFunction'
+                - 'lambda:GetFunctionConfiguration'
+                - 'lambda:InvokeAsync'
+                - 'lambda:InvokeFunction'
+                - 'lambda:ListAliases'
+                - 'lambda:ListEventSourceMappings'
+                - 'lambda:ListFunctions'
+                - 'lambda:ListTags'
+                - 'lambda:ListVersionsByFunction'
+                - 'lambda:PublishVersion'
+                - 'lambda:PutFunctionEventInvokeConfig'
+                - 'lambda:RemovePermission'
+                - 'lambda:TagResource'
+                - 'lambda:UntagResource'
+                - 'lambda:UpdateAlias'
+                - 'lambda:UpdateEventSourceMapping'
+                - 'lambda:UpdateFunctionCode'
+                - 'lambda:UpdateFunctionConfiguration'
+              Resource:
+                - !Sub 'arn:aws-cn:lambda:${AWS::Region}:${AWS::AccountId}:function:launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'states:CreateStateMachine'
+                - 'states:UpdateStateMachine'
+                - 'states:DeleteStateMachine'
+                - 'states:DescribeStateMachine'
+                - 'states:TagResource'
+                - 'states:UntagResource'
+              Resource:
+                - !Sub 'arn:aws-cn:states:${AWS::Region}:${AWS::AccountId}:stateMachine:launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'events:PutRule'
+                - 'events:DeleteRule'
+                - 'events:DescribeRule'
+                - 'events:EnableRule'
+                - 'events:DisableRule'
+              Resource:
+                - !Sub 'arn:aws-cn:events:${AWS::Region}:${AWS::AccountId}:rule/launch-productfinder*'
+            - Effect: Allow
+              Action:
+                - 'logs:CreateLogGroup'
+                - 'logs:DeleteLogGroup'
+                - 'logs:DeleteSubscriptionFilter'
+                - 'logs:DescribeLogGroups'
+                - 'logs:DescribeSubscriptionFilters'
+                - 'logs:PutRetentionPolicy'
+                - 'logs:PutSubscriptionFilter'
+              Resource:
+                - !Sub 'arn:aws-cn:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/launch-productfinder*'
