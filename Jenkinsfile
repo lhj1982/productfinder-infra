@@ -26,11 +26,6 @@ def deployCommandAws = [
     ]
 ]
 
-def basicDeployCommand = '''
-                            yarn config set registry https://artifactory.nike.com/artifactory/api/npm/npm-nike
-                            yarn global add pnpm@7;PATH="$HOME/.yarn/bin:$PATH";pnpm i
-                        '''
-
 def config = [
     usePraDispatch: false,
     buildFlow: [
@@ -43,13 +38,12 @@ def config = [
     ],
     versionStrategy: 'packageJson',
     tags: [
-        'Name': 'idnlaunchreadiness',
-        'classification': 'Silver',
+        'Name': 'launch-productfinder',
         'email': 'Lst-Identity.feature@nike.com',
-        'owner': 'identity',
+        'owner': 'launch-service',
         // Required tags
-        'nike-application': 'idnlaunchreadiness',
-        'nike-department': 'platform engineering - user services',
+        'nike-application': 'launch-productfinder',
+        'nike-department': 'platform engineering - launch services',
         'nike-domain': 'Consumer Profile Management - Serve and Know',
     ],
     notify: [
@@ -68,7 +62,7 @@ def config = [
             deployCommand: [
                 aws: deployCommandAws.cntest,
                 image: buildImage,
-                cmd: basicDeployCommand + 'pnpm cdk deploy --require-approval never idn-launch-scaler-lambda -c env=test',
+                cmd: 'npm install && npm run bmx:cntest',
             ]
         ],
         'cnprod': [
@@ -80,7 +74,7 @@ def config = [
             deployCommand: [
                 aws: deployCommandAws.cnprod,
                 image: buildImage,
-                cmd: basicDeployCommand + 'pnpm cdk deploy --require-approval never idn-launch-scaler-lambda -c env=prod',
+                cmd: 'npm install && npm run bmx:cnprod',
             ]
         ]
     ]

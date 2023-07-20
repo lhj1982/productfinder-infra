@@ -9,8 +9,10 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy:dev": "NODE_ENV=development cdk deploy --profile CommerceGCTest",
-    "deploy:prod": "NODE_ENV=production cdk deploy --profile CommerceGCProd",
+    "bmx:cntest": "NODE_ENV=cntest cdk deploy --require-approval never",
+    "bmx:cnprod": "NODE_ENV=cnprod cdk deploy --require-approval never",
+    "deploy:cntest": "NODE_ENV=cntest cdk deploy --profile CommerceGCTest",
+    "deploy:cnprod": "NODE_ENV=cnprod cdk deploy --profile CommerceGCProd",
     "format": "prettier --write '{**/*.ts, **/**/*.ts}'",
     "lint": "eslint ./**/*.ts --fix"
   },
