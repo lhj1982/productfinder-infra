@@ -46,7 +46,7 @@ def config = [
             'nike-application'     : 'launch-productfinder-infra',
             'nike-department'      : 'platform engineering - launch',
             'nike-domain'          : 'launch-productfinder',
-    ]
+    ],
     notify: [
         slack: [
             channel: '#launch-productfinder-deploy',
