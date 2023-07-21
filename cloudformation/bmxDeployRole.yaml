@@ -17,8 +17,7 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS:
-                - !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:role/NIKE.SSO.AdminRole'
+              AWS: 'arn:aws-cn:iam::108851027208:role/brewmaster-base-serve-gc-bmx'
             Action: sts:AssumeRole
       Policies:
         - PolicyName: launch-product-finder-bmx-policy
@@ -44,7 +43,7 @@ Resources:
                   - 'cloudformation:GetTemplateSummary'
                   - 'cloudformation:ValidateTemplate'
                 Resource:
-                  - !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/launch-productfinder*'
+                  - !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/*'
               - Effect: Allow
                 Action:
                   - 'iam:AttachRolePolicy'
