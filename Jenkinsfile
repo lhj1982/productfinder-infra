@@ -55,10 +55,11 @@ def config = [
     ],
     deploymentEnvironment:  [
         'cntest': [
+            agentLabel      : 'china',
             deployFlow: [
                 DEPLOY_TEST: ['Deploy'],
             ],
-            cloudEnvironment: 'test',
+            cloudEnvironment: 'cntest',
             tags: deploymentEnvironmentTags.cntest,
             deployCommand: [
                 aws: deployCommandAws.cntest,
@@ -67,10 +68,11 @@ def config = [
             ]
         ],
         'cnprod': [
+            agentLabel      : 'china',
             deployFlow: [
                 DEPLOY_PROD: ['Deploy'],
             ],
-            cloudEnvironment: 'prod',
+            cloudEnvironment: 'cnprod',
             tags: deploymentEnvironmentTags.cnprod,
             deployCommand: [
                 aws: deployCommandAws.cnprod,
