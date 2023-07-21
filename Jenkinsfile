@@ -36,16 +36,17 @@ def config = [
         DEPLOY_TEST: ['main'],
         BUILD_ONLY: ['^(?!main$).*$'],
     ],
+    qma                  : [configFile: 'quality-config.yaml'],
     versionStrategy: 'packageJson',
-    tags: [
-        'Name': 'launch-productfinder',
-        'email': 'Lst-Identity.feature@nike.com',
-        'owner': 'launch-service',
-        // Required tags
-        'nike-application': 'launch-productfinder',
-        'nike-department': 'platform engineering - launch services',
-        'nike-domain': 'Consumer Profile Management - Serve and Know',
-    ],
+    tags                 : [
+            'Name'                 : 'launch-productfinder-infra',
+            'classification'       : 'Bronze',
+            'email': 'yan.zhou2@nike.com',
+            'owner': 'launch',
+            'nike-application'     : 'launch-productfinder-infra',
+            'nike-department'      : 'platform engineering - launch',
+            'nike-domain'          : 'launch-productfinder',
+    ]
     notify: [
         slack: [
             channel: '#launch-productfinder-deploy',

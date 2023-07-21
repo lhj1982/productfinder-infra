@@ -1,0 +1,9 @@
+qualityConfig:
+  application:
+    name: launch-productfinder-infra
+    domain: launch-productfinder
+    owner: launch
+    team: launch
+    email: yan.zhou2@nike.com
+    costcenter: 104420
+    organization: platform engineering - launch
