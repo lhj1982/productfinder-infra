@@ -28,6 +28,7 @@ Resources:
                   - 'cloudformation:CancelUpdateStack'
                   - 'cloudformation:ContinueUpdateRollback'
                   - 'cloudformation:CreateChangeSet'
+                  - 'cloudformation:DeleteChangeSet'
                   - 'cloudformation:CreateStack'
                   - 'cloudformation:DeleteStack'
                   - 'cloudformation:DescribeChangeSet'
