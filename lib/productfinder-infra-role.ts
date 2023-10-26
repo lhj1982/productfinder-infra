@@ -90,6 +90,16 @@ export class ProductFinderRole extends Construct {
           }),
         ],
       }),
+      // kms
+      new Policy(this, 'Launch-productfinder-kms-policy', {
+        policyName: 'launch-productfinder-kms-policy',
+        statements: [
+          new PolicyStatement({
+            actions: ['kms:Encrypt', 'kms:Decrypt'],
+            resources: ['*'],
+          }),
+        ],
+      }),
     ];
     //role
     const role = new Role(this, 'launch-productfinder-role', {
