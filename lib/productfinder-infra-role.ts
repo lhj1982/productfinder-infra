@@ -113,6 +113,7 @@ export class ProductFinderRole extends Construct {
         new ServicePrincipal('events.amazonaws.com'),
         new ServicePrincipal('logs.amazonaws.com'),
         new ServicePrincipal('ec2.amazonaws.com'),
+        new ServicePrincipal('kms.amazonaws.com'),
         new ArnPrincipal(`${config.oktaAdminRole}`),
       ),
       description: 'the iam Role of launch-productfinder-scheduler and launch-productfinder-consume',
