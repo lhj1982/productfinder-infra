@@ -100,6 +100,26 @@ export class ProductFinderRole extends Construct {
           }),
         ],
       }),
+      // ec2
+      new Policy(this, 'Launch-productfinder-ec2-policy', {
+        policyName: 'launch-productfinder-ec2-policy',
+        statements: [
+          new PolicyStatement({
+            actions: ['ec2:*'],
+            resources: ['*'],
+          }),
+        ],
+      }),
+      // rds
+      new Policy(this, 'Launch-productfinder-rds-policy', {
+        policyName: 'launch-productfinder-rds-policy',
+        statements: [
+          new PolicyStatement({
+            actions: ['rds:*'],
+            resources: ['*'],
+          }),
+        ],
+      }),
     ];
     //role
     const role = new Role(this, 'launch-productfinder-role', {
@@ -114,6 +134,7 @@ export class ProductFinderRole extends Construct {
         new ServicePrincipal('logs.amazonaws.com'),
         new ServicePrincipal('ec2.amazonaws.com'),
         new ServicePrincipal('kms.amazonaws.com'),
+        new ServicePrincipal('rds.amazonaws.com'),
         new ArnPrincipal(`${config.oktaAdminRole}`),
       ),
       description: 'the iam Role of launch-productfinder-scheduler and launch-productfinder-consume',
