@@ -19,7 +19,7 @@ AWS_ACCOUNT: '734176943427',
 AWS_REGION: 'cn-northwest-1',
 OSCAR_API_ARN: 'arn:aws-cn:execute-api:*:693031048477:*',
 ASSUMED_ROLE_NAME: 'xxx'
-SLACK_MESSAGE_HOOK: 'https://hooks.slack.com/services/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',
+SLACK_MESSAGE_HOOK: 'https://hooks.slack.com/services/<slack web hook url>',
 ```
 
 
